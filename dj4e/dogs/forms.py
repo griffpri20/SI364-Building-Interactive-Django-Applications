@@ -1,8 +1,8 @@
 from django.forms import ModelForm
-from dogs.models import Type
+from cats.models import Breed
 
 # Create the form class.
-class TypeForm(ModelForm):
+class BreedForm(ModelForm):
     class Meta:
-        model = Type
+        model = Breed
         fields = '__all__'

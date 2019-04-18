@@ -1,0 +1,30 @@
+{% extends "athlete_base_menu.html" %}
+{% block content %}
+<h1>Athletes</h1>
+<p>
+{% if athlete_list %}
+<ul>
+  {% for athlete in athlete_list %}
+    <li>
+        <a href="{% url 'athlete_detail'  athlete.id %}">{{ athlete.name }}</a>
+        {% if athlete.owner == user %}
+        (<a href="{% url 'athlete_update' athlete.id %}">Edit</a> |
+        <a href="{% url 'athlete_delete' athlete.id %}">Delete</a>)
+        </p>
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no athletes in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'athlete_create' %}">Create Athlete</a> |
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next=/athletes">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'athletes' %}">Login</a>
+{% endif %}
+</p>
+{% endblock %}

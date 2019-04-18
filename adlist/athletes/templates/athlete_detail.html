@@ -1,0 +1,42 @@
+{% extends "athlete_base_menu.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %} <!-- https://docs.djangoproject.com/en/2.1/ref/contrib/humanize -->
+{% block content %}
+<h1>
+{% if athlete.owner == user %}
+<span style="float: right;">
+<a href="{% url 'athlete_update' athlete.id %}"><i class="fa fa-pencil"></i></a>
+<a href="{% url 'athlete_delete' athlete.id %}"><i class="fa fa-trash"></i></a>
+</span>
+{% endif %}
+{{ athlete.name }}
+{% if athlete.content_type %}
+<img style="float:right; max-width:50%;" src="{% url 'athlete_picture' athlete.id %}">
+{% endif %}
+</h1>
+<p>
+{{ athlete.description }}
+</p>
+<p>
+({{ athlete.updated_at|naturaltime }})
+</p>
+{% if user.is_authenticated %}
+<br clear="all"/>
+<p>
+<form method="post" action="{% url 'athlete_comment_create' athlete.id %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+<input type="submit" value="Submit">
+<input type="submit" value="All Athletes" onclick="window.location.href='{% url 'athletes' %}';return false;">
+</form>
+</p>
+{% endif %}
+{% for comment in comments %}
+<p> {{ comment.text }}
+({{ comment.updated_at|naturaltime }})
+{% if user == comment.owner %}
+<a href="{% url 'athlete_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</p>
+{% endfor %}
+{% endblock %}

@@ -6,55 +6,55 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 
-from dogs.models import Dog, Type
-from dogs.forms import TypeForm
+from cats.models import Cat, Breed
+from cats.forms import BreedForm
 
 # Create your views here.
 
 class MainView(LoginRequiredMixin, View) :
     def get(self, request):
-        mc = Type.objects.all().count();
-        al = Dog.objects.all();
+        mc = Breed.objects.all().count();
+        al = Cat.objects.all();
 
-        ctx = { 'type_count': mc, 'dog_list': al };
-        return render(request, 'dogs/dog_list.html', ctx)
+        ctx = { 'breed_count': mc, 'cat_list': al };
+        return render(request, 'cats/cat_list.html', ctx)
 
-class TypeView(LoginRequiredMixin,View) :
+class BreedView(LoginRequiredMixin,View) :
     def get(self, request):
-        ml = Type.objects.all();
-        ctx = { 'type_list': ml };
-        return render(request, 'dogs/type_list.html', ctx)
+        ml = Breed.objects.all();
+        ctx = { 'breed_list': ml };
+        return render(request, 'cats/breed_list.html', ctx)
 
-class TypeCreate(LoginRequiredMixin, View):
-    template = 'dogs/type_form.html'
-    success_url = reverse_lazy('dogs')
+class BreedCreate(LoginRequiredMixin, View):
+    template = 'cats/breed_form.html'
+    success_url = reverse_lazy('cats')
     def get(self, request) :
-        form = TypeForm()
+        form = BreedForm()
         ctx = { 'form': form }
         return render(request, self.template, ctx)
 
     def post(self, request) :
-        form = TypeForm(request.POST)
+        form = BreedForm(request.POST)
         if not form.is_valid() :
             ctx = {'form' : form}
             return render(request, self.template, ctx)
 
-        type = form.save()
+        breed = form.save()
         return redirect(self.success_url)
 
-class TypeUpdate(LoginRequiredMixin, View):
-    model = Type
-    success_url = reverse_lazy('dogs')
-    template = 'dogs/type_form.html'
+class BreedUpdate(LoginRequiredMixin, View):
+    model = Breed
+    success_url = reverse_lazy('cats')
+    template = 'cats/breed_form.html'
     def get(self, request, pk) :
-        type = get_object_or_404(self.model, pk=pk)
-        form = TypeForm(instance=type)
+        breed = get_object_or_404(self.model, pk=pk)
+        form = BreedForm(instance=breed)
         ctx = { 'form': form }
         return render(request, self.template, ctx)
 
     def post(self, request, pk) :
-        type = get_object_or_404(self.model, pk=pk)
-        form = TypeForm(request.POST, instance = type)
+        breed = get_object_or_404(self.model, pk=pk)
+        form = BreedForm(request.POST, instance = breed)
         if not form.is_valid() :
             ctx = {'form' : form}
             return render(request, self.template, ctx)
@@ -62,34 +62,34 @@ class TypeUpdate(LoginRequiredMixin, View):
         form.save()
         return redirect(self.success_url)
 
-class TypeDelete(LoginRequiredMixin, DeleteView):
-    model = Type
-    success_url = reverse_lazy('dogs')
-    template = 'dogs/type_confirm_delete.html'
+class BreedDelete(LoginRequiredMixin, DeleteView):
+    model = Breed
+    success_url = reverse_lazy('cats')
+    template = 'cats/breed_confirm_delete.html'
 
     def get(self, request, pk) :
-        type = get_object_or_404(self.model, pk=pk)
-        form = TypeForm(instance=type)
-        ctx = { 'type': type }
+        breed = get_object_or_404(self.model, pk=pk)
+        form = BreedForm(instance=breed)
+        ctx = { 'breed': breed }
         return render(request, self.template, ctx)
 
     def post(self, request, pk) :
-        type = get_object_or_404(self.model, pk=pk)
-        type.delete()
+        breed = get_object_or_404(self.model, pk=pk)
+        breed.delete()
         return redirect(self.success_url)
 
 # Take the easy way out on the main table
-class DogCreate(LoginRequiredMixin,CreateView):
-    model = Dog
+class CatCreate(LoginRequiredMixin,CreateView):
+    model = Cat
     fields = '__all__'
-    success_url = reverse_lazy('dogs')
+    success_url = reverse_lazy('cats')
 
-class DogUpdate(LoginRequiredMixin, UpdateView):
-    model = Dog
+class CatUpdate(LoginRequiredMixin, UpdateView):
+    model = Cat
     fields = '__all__'
-    success_url = reverse_lazy('dogs')
+    success_url = reverse_lazy('cats')
 
-class DogDelete(LoginRequiredMixin, DeleteView):
-    model = Dog
+class CatDelete(LoginRequiredMixin, DeleteView):
+    model = Cat
     fields = '__all__'
-    success_url = reverse_lazy('dogs')
+    success_url = reverse_lazy('cats')

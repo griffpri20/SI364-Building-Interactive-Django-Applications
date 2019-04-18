@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'social_django',
     'home.apps.HomeConfig',
     'ads.apps.AdsConfig',
+    'autos.apps.AutosConfig',
+    'athletes.apps.AthletesConfig',
 ]
 
 # When we get to crispy forms :)
