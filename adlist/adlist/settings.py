@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'ads.apps.AdsConfig',
     'autos.apps.AutosConfig',
     'athletes.apps.AthletesConfig',
+    'cookies.apps.CookiesConfig',
+    'stars.apps.StarsConfig',
 ]
 
 # When we get to crispy forms :)

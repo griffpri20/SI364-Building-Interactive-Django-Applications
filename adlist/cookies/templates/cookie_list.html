@@ -1,0 +1,30 @@
+{% extends "cookie_base_menu.html" %}
+{% block content %}
+<h1>Cookies</h1>
+<p>
+{% if cookie_list %}
+<ul>
+  {% for cookie in cookie_list %}
+    <li>
+        <a href="{% url 'cookie_detail'  cookie.id %}">{{ cookie.name }}</a>
+        {% if cookie.owner == user %}
+        (<a href="{% url 'cookie_update' cookie.id %}">Edit</a> |
+        <a href="{% url 'cookie_delete' cookie.id %}">Delete</a>)
+        </p>
+        {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no cookies in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'cookie_create' %}">Create Cookie</a> |
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next=/cookies">Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'cookies' %}">Login</a>
+{% endif %}
+</p>
+{% endblock %}

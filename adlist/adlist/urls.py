@@ -21,13 +21,14 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', include('athletes.urls')),  # Keep
+    path('', include('stars.urls')),  # Keep
     path('admin/', admin.site.urls),  # Keep
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
     path('ads/', include('ads.urls')),  # Keep
     path('autos/', include('autos.urls')),
     path('athletes/', include('athletes.urls')),
-
+    path('cookies/', include('cookies.urls')),
+    path('stars/', include('stars.urls')),
     # Sample applications
     # path('hello/', include('hello.urls')),
     # path('getpost/', include('getpost.urls')),
